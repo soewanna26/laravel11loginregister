@@ -43,8 +43,8 @@
                             class="@error('password')
                                     is-invalid
                                 @enderror login__input"
-                            id="login-pass" placeholder=" ">
-                        <label for="login-pass" class="login__label">Password</label>
+                            id="password" placeholder=" ">
+                        <label for="password" class="login__label">Password</label>
                         <i class="ri-eye-off-line login__eye" id="login-eye"></i>
                         @error('password')
                             <p class="invalid-feedback">{{ $message }}</p>
@@ -54,10 +54,10 @@
             </div>
 
             <div class="login__check">
-                <div class="login__check-group">
+                {{-- <div class="login__check-group">
                     <input type="checkbox" class="login__check-input" id="login-check">
                     <label for="login-check" class="login__check-label">Remember me</label>
-                </div>
+                </div> --}}
 
                 <a href="{{ route('forgotPassword') }}" class="login__forgot">Forgot Password?</a>
             </div>

@@ -15,3 +15,4 @@ Route::get('/forgot-password',[AccountController::class,'forgotPassword'])->name
 Route::post('/process-forgot-password',[AccountController::class,'processForgotPassword'])->name('processForgotPassword');
 Route::get('/rest-password/{token}',[AccountController::class,'restPassword'])->name('restPassword');
 Route::post('/process-reset-password',[AccountController::class,'processResetPassword'])->name('processResetPassword');
+Route::get('/logout',[AccountController::class,'logout'])->name('logout');

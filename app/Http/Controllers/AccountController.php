@@ -124,30 +124,28 @@ class AccountController extends Controller
         ];
 
         Mail::to($request->email)->send(new ResetPasswordEmail($mailData));
-        return redirect()->route('forgotPassword')->with('success','Rest Password email has been sent to your inbox.');
+        return redirect()->route('forgotPassword')->with('success', 'Rest Password email has been sent to your inbox.');
     }
 
     public function restPassword($tokenString)
     {
-        $token = DB::table('password_reset_tokens')->where('token',$tokenString)->first();
+        $token = DB::table('password_reset_tokens')->where('token', $tokenString)->first();
 
-        if($token == null)
-        {
-            return redirect()->route('forgotPassword')->with('error','Invalid Token');
+        if ($token == null) {
+            return redirect()->route('forgotPassword')->with('error', 'Invalid Token');
         }
 
-        return view('admin.account.reset-password',[
+        return view('admin.account.reset-password', [
             'tokenString' => $tokenString,
         ]);
     }
 
     public function processResetPassword(Request $request)
     {
-        $token = DB::table('password_reset_tokens')->where('token',$request->token)->first();
+        $token = DB::table('password_reset_tokens')->where('token', $request->token)->first();
 
-        if($token == null)
-        {
-            return redirect()->route('forgotPassword')->with('error','Invalid Token');
+        if ($token == null) {
+            return redirect()->route('forgotPassword')->with('error', 'Invalid Token');
         }
 
         $validator = Validator::make($request->all(), [
@@ -156,13 +154,19 @@ class AccountController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('restPassword',$request->token)->withErrors($validator);
+            return redirect()->route('restPassword', $request->token)->withErrors($validator);
         }
 
         User::where('email', $token->email)->update([
             'password' => Hash::make($request->new_password)
         ]);
 
-        return redirect()->route('login')->with('success','You have successfully changed your password');
+        return redirect()->route('login')->with('success', 'You have successfully changed your password');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('account.login');
     }
 }
